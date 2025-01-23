@@ -5,6 +5,7 @@
 - [ ] framework - express.js
 - [ ] ORM - sequelize
 - [ ] DB - MySQLs
+- [ ] apiDoc - Swagger
 
 ## links
 

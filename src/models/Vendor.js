@@ -4,7 +4,6 @@ export default (sequelize) => {
   return sequelize.define(
     'Vendor',
     {
-      // Model attributes are defined here
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -13,6 +12,6 @@ export default (sequelize) => {
         type: DataTypes.STRING,
       },
     },
-    { timestamps: false },
+    { timestamps: false }
   )
 }
