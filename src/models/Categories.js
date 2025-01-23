@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 
 export default (sequelize) => {
   return sequelize.define(
-    'Vendor',
+    'Categories',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -10,12 +10,9 @@ export default (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      firstName: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-      lastName: {
-        type: DataTypes.STRING,
       },
     },
     {
