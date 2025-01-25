@@ -1,5 +1,8 @@
 import { Sequelize } from 'sequelize'
 import VendorModel from '../models/Vendor.js'
+import NFTModel from '../models/NFT.js'
+import CollectionsModel from '../models/Collections.js'
+import CategoriesModel from '../models/Categories.js'
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -26,8 +29,16 @@ async function deConnection() {
   }
 }
 deConnection()
-const Voendor = VendorModel(sequelize)
-export default {
-  sequelize,
-  Voendor,
-}
+const Vendor = VendorModel(sequelize)
+const NFT = NFTModel(sequelize)
+const Collections = CollectionsModel(sequelize)
+const Categories = CategoriesModel(sequelize)
+
+NFT.hasMany(Vendor, { foreignKey: 'nfts' })
+
+NFT.belongsTo(Vendor, { foreignKey: 'vendorId' })
+NFT.belongsTo(Collections, { foreignKey: 'collectionsId' })
+NFT.belongsTo(Categories, { foreignKey: 'categoriesId' })
+Vendor.belongsTo(Collections, { foreignKey: 'collectionId' })
+
+export default sequelize

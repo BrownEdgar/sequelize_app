@@ -4,14 +4,16 @@ import fs from 'fs'
 import createError from 'http-errors'
 import logger from 'morgan'
 import { join } from 'path'
-import db from './db/connection.js'
 
 // swagger
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yaml'
 // routes
 import homeRouter from './routes/main.js'
-import usersRouter from './routes/users.js'
+import vendorsRouter from './routes/vendors.js'
+import categoriesRouter from './routes/categories.js'
+import collectionsRouter from './routes/collections.js'
+import nftRouter from './routes/nft.js'
 
 const app = express()
 
@@ -33,7 +35,10 @@ app.use(cookieParser())
 app.use(estatic(join('../public', 'public')))
 
 app.use('/', homeRouter)
-app.use('/users', usersRouter)
+app.use('/vendors', vendorsRouter)
+app.use('/nft', nftRouter)
+app.use('/collections', collectionsRouter)
+app.use('/categories', categoriesRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

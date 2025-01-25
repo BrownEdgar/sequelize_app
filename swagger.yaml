@@ -7,7 +7,7 @@ info:
   contact:
     name: API Support
     email: support@example.com
-    url: http://example.com/support
+    url: http://example.com/support”
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -19,7 +19,10 @@ schemes:
 paths:
   /vendors:
     get:
+      tags:
+        - vendors
       summary: Get all vendors
+      operationId: vendors
       description: Returns a list of all vendors.
       responses:
         200:
@@ -27,10 +30,31 @@ paths:
           schema:
             type: array
             items:
-              ref: '#/definitions/Vendor'
+              $ref: '#/components/schemas/Vendor'
+    post:
+      summary: add new vendors
+      tags:
+        - vendors
+      operationId: vendors
+      description: Returns a list of all vendors.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vendor'
+      responses:
+        200:
+          description: A list of vendors
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Vendor'
   /vendors/{id}:
     get:
+      tags:
+        - vendors
       summary: Get a vendor by ID
+      operationId: vendors
       parameters:
         - name: id
           in: path
@@ -41,24 +65,219 @@ paths:
         200:
           description: vendors details
           schema:
-            ref: '#/definitions/Vendor'
+            $ref: '#/definitions/Vendor'
+        404:
+          description: Vendor not found
+    patch:
+      tags:
+        - vendors
+      summary: update vendor by ID
+      operationId: vendors
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID of the vendors to updated
+      responses:
+        200:
+          description: vendors succesfuly update
+          schema:
+            $ref: '#/definitions/Vendor'
+        404:
+          description: Vendor not found
+    delete:
+      tags:
+        - vendors
+      summary: delete a vendor by ID
+      responses:
+        200:
+          description: vendors deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'deleted'
         404:
           description: User not found
+  /collections:
+    get:
+      tags:
+        - collections
+      summary: Get all collections
+      operationId: collections
+      responses:
+        200:
+          description: vendors details
+          schema:
+            $ref: '#/definitions/Vendor'
+        404:
+          description: User not found
+    post:
+      tags:
+        - collections
+      summary: add a collections by ID
+      operationId: collections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Collections'
+      responses:
+        200:
+          description: vendors details
+          schema:
+            $ref: '#/components/schemas/Collections'
+        404:
+          description: validation error
+  /collections/{id}:
+    get:
+      tags:
+        - collections
+      summary: Get collection by ID
+      operationId: collections
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID of the collection to retrieve
+      responses:
+        200:
+          description: collection details
+          schema:
+            $ref: '#/components/schemas/Collections'
+        404:
+          description: Vendor not found
+    delete:
+      tags:
+        - collections
+      summary: delete collection by ID
+      operationId: collections
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: collection ID which to by deleted
+      responses:
+        200:
+          description: collection that was deleted
+          schema:
+            $ref: '#/components/schemas/Collections'
+        404:
+          description: collection not found
+  /categories:
+    get:
+      tags:
+        - category
+      summary: Get All Categories
+      operationId: category
+      responses:
+        200:
+          description: categories details with array
+          schema:
+            $ref: '#/components/schemas/Categories'
+        404:
+          description: Vendor not found
+    post:
+      tags:
+        - category
+      summary: Add new ategory
+      operationId: category
+      description: Returns a list of all categories.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categories'
+      responses:
+        200:
+          description: categories details with array
+          schema:
+            $ref: '#/components/schemas/Categories'
+        404:
+          description: Vendor not found
+  /categories/{id}:
+    get:
+      tags:
+        - category
+      summary: Get category by ID
+      operationId: category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: ID of the category to retrieve
+      responses:
+        200:
+          description: collection details
+          schema:
+            $ref: '#/components/schemas/Categories'
+        404:
+          description: Vendor not found
+    patch:
+      tags:
+        - category
+      summary: update category by ID
+      operationId: category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categories'
+      responses:
+        200:
+          description: category that was deleted
+          schema:
+            $ref: '#/components/schemas/Categories'
+        404:
+          description: category not found
 components:
   schemas:
     Vendor:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           example: 12345
-        firstName:
+        name:
           type: string
           example: John
-        lastName:
+        surname:
           type: string
           example: Doe
+        rang:
+          type: integer
+          example: 2
+          min: 1
+          max: 10
+        collectionId:
+          type: integer
+          example: 1
       required:
         - id
         - firstName
         - lastName
+    Collections:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12345
+        title:
+          type: string
+          example: 'game'
+    Categories:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12345
+        title:
+          type: string
+          example: 'game'
