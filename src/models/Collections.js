@@ -13,11 +13,11 @@ export default (sequelize) => {
       title: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
     },
     {
       sequelize,
+      indexes: [{ unique: true, fields: ['title'] }],
     }
   )
 }

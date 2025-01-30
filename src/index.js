@@ -4,19 +4,24 @@ import fs from 'fs'
 import createError from 'http-errors'
 import logger from 'morgan'
 import { join } from 'path'
-
+// stripe
+import Stripe from 'stripe'
 // swagger
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yaml'
+
 // routes
 import homeRouter from './routes/main.js'
 import vendorsRouter from './routes/vendors.js'
 import categoriesRouter from './routes/categories.js'
 import collectionsRouter from './routes/collections.js'
 import nftRouter from './routes/nft.js'
+import stripeRouter from './routes/stripe.js'
 
 const app = express()
 
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
+app.stripe = stripe
 // view engine setup
 app.set('views', join('./views', 'views'))
 app.set('view engine', 'ejs')
@@ -39,6 +44,7 @@ app.use('/vendors', vendorsRouter)
 app.use('/nft', nftRouter)
 app.use('/collections', collectionsRouter)
 app.use('/categories', categoriesRouter)
+app.use('/stripe', stripeRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
