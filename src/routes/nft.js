@@ -2,15 +2,18 @@ import { Router } from 'express'
 import sequelize from '../db/connection.js'
 const router = Router()
 
-router.delete('/', async function (req, res, next) {
-  console.log(44444)
+router.delete('/:id', async function (req, res) {
+  const { id } = req.params
+  console.log(id)
 
   try {
-    const result = await sequelize.query(`SET FOREIGN_KEY_CHECKS = 0;`)
-    const x = await sequelize.models.NFT.destroy({
-      truncate: true,
+    await sequelize.query(`SET FOREIGN_KEY_CHECKS = 0;`)
+    await sequelize.models.NFT.destroy({
+      where: {
+        id,
+      },
     })
-    res.json(x)
+    res.json({ message: `Nft with ${id} id deleted` })
   } catch (error) {
     console.log(error)
 

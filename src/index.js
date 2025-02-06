@@ -3,6 +3,7 @@ import express, { static as estatic, json, urlencoded } from 'express'
 import fs from 'fs'
 import createError from 'http-errors'
 import logger from 'morgan'
+import cors from 'cors'
 import { join } from 'path'
 // stripe
 import Stripe from 'stripe'
@@ -17,11 +18,15 @@ import categoriesRouter from './routes/categories.js'
 import collectionsRouter from './routes/collections.js'
 import nftRouter from './routes/nft.js'
 import stripeRouter from './routes/stripe.js'
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 const app = express()
-
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 app.stripe = stripe
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+  })
+)
 // view engine setup
 app.set('views', join('./views', 'views'))
 app.set('view engine', 'ejs')
